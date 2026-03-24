@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KI-Anleitung: HTML-Seiten für den Unterricht erstellen</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap');
+
+    :root {
+      --ink:       #1a1a2e;
+      --paper:     #faf8f4;
+      --cream:     #f0ebe0;
+      --accent:    #c84b31;
+      --accent2:   #2e6b8a;
+      --gold:      #d4a843;
+      --muted:     #6b6b80;
+      --border:    #e0d8cc;
+      --card-bg:   #ffffff;
+      --code-bg:   #1e2a38;
+      --code-fg:   #a8d8a8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: white;
+      padding: 60px 40px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(200,75,49,0.15);
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: 10%;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(46,107,138,0.12);
+    }
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .header-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    header h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    header h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--gold);
+    }
+    .header-sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.7);
+      max-width: 580px;
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+
+    /* ── INHALTSVERZEICHNIS ── */
+    .toc {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin: 48px 0 56px;
+    }
+    .toc h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .toc ol {
+      padding-left: 20px;
+    }
+    .toc li {
+      margin-bottom: 6px;
+    }
+    .toc a {
+      color: var(--accent2);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); text-decoration: underline; }
+
+    /* ── ABSCHNITTE ── */
+    section {
+      margin-bottom: 64px;
+    }
+    .section-num {
+      font-family: 'Fraunces', serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    h2.section-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 14px;
+    }
+    h3 {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin: 32px 0 12px;
+      color: var(--ink);
+    }
+    p { margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── KARTEN ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 20px 0;
+    }
+    .card-accent {
+      border-left: 4px solid var(--accent);
+      background: #fff9f8;
+    }
+    .card-blue {
+      border-left: 4px solid var(--accent2);
+      background: #f5f9fc;
+    }
+    .card-gold {
+      border-left: 4px solid var(--gold);
+      background: #fdfaf2;
+    }
+    .card-green {
+      border-left: 4px solid #3a8a5a;
+      background: #f4faf7;
+    }
+    .card-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .card-accent .card-label { color: var(--accent); }
+    .card-blue .card-label { color: var(--accent2); }
+    .card-gold .card-label { color: #a07820; }
+    .card-green .card-label { color: #2a6a42; }
+
+    /* ── CODE ── */
+    .code-block {
+      background: var(--code-bg);
+      color: var(--code-fg);
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-family: 'Menlo', 'Courier New', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 16px 0;
+      position: relative;
+    }
+    .code-label {
+      position: absolute;
+      top: 10px; right: 14px;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .code-block .comment { color: #7a9abf; }
+    .code-block .keyword { color: #c586c0; }
+    .code-block .string { color: #ce9178; }
+    .code-block .value { color: #b5cea8; }
+
+    /* ── PROMPT-BOX ── */
+    .prompt-box {
+      background: var(--ink);
+      color: #e0e0e0;
+      border-radius: 12px;
+      padding: 22px 26px;
+      margin: 20px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      position: relative;
+    }
+    .prompt-box::before {
+      content: '💬 Beispiel-Prompt';
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .prompt-highlight { color: #9ac8e8; font-style: italic; }
+
+    /* ── TOOL-VERGLEICH ── */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    @media (max-width: 640px) { .tool-grid { grid-template-columns: 1fr; } }
+    .tool-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      background: white;
+    }
+    .tool-card.featured {
+      border-color: var(--accent2);
+      background: #f5f9fc;
+      position: relative;
+    }
+    .tool-badge {
+      position: absolute;
+      top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent2);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .tool-name {
+      font-family: 'Fraunces', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      margin-top: 6px;
+    }
+    .tool-pros { list-style: none; }
+    .tool-pros li {
+      font-size: 0.9rem;
+      padding: 3px 0;
+      color: #444;
+    }
+    .tool-pros li::before { content: '✓ '; color: #3a8a5a; font-weight: 600; }
+    .tool-pros li.minus::before { content: '○ '; color: var(--muted); }
+
+    /* ── SCHRITT-BY-SCHRITT ── */
+    .steps { counter-reset: step-counter; }
+    .step {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 28px;
+      align-items: flex-start;
+    }
+    .step-num {
+      counter-increment: step-counter;
+      min-width: 40px;
+      height: 40px;
+      background: var(--ink);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .step-body h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      margin-top: 8px;
+    }
+
+    /* ── GRENZEN / WARNHINWEIS ── */
+    .warning {
+      background: #fff8ed;
+      border: 1px solid #f0c060;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .warning-title {
+      font-weight: 500;
+      color: #8a5c00;
+      margin-bottom: 8px;
+    }
+    .warning ul { padding-left: 20px; }
+    .warning li { color: #6b4c00; margin-bottom: 4px; font-size: 0.95rem; }
+
+    /* ── BEISPIELE-BEREICH ── */
+    #beispiele {
+      background: var(--cream);
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      margin-top: 64px;
+    }
+    #beispiele h2 {
+      border-bottom-color: #ccc4b8;
+    }
+    .beispiel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 28px;
+    }
+    .beispiel-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .beispiel-card h4 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .beispiel-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
+      flex: 1;
+    }
+    .beispiel-btn {
+      display: inline-block;
+      background: var(--ink);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-align: center;
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .beispiel-btn:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+    }
+    .placeholder-note {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.92rem;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 28px;
+      font-size: 0.85rem;
+    }
+    footer strong { color: rgba(255,255,255,0.8); }
+
+    /* ── DIVERSES ── */
+    strong { font-weight: 500; color: var(--ink); }
+    ul, ol { padding-left: 22px; margin-bottom: 16px; }
+    li { margin-bottom: 6px; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+    .inline-code {
+      font-family: 'Menlo', monospace;
+      font-size: 0.88em;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <p class="header-tag">Praxisleitfaden für Lehrkräfte</p>
+    <h1>Interaktive HTML-Seiten<br>mit <em>Künstlicher Intelligenz</em> erstellen</h1>
+    <p class="header-sub">Wie du mit Claude, ChatGPT oder Gemini ohne Programmierkenntnisse fertige Lernseiten für dein Schulportal erstellst – Schritt für Schritt erklärt.</p>
+  </div>
+</header>
+
+<div class="wrapper">
+
+  <nav class="toc">
+    <h2>Inhalt</h2>
+    <ol>
+      <li><a href="#warum">Warum HTML-Dateien?</a></li>
+      <li><a href="#tools">Welches KI-Tool ist geeignet?</a></li>
+      <li><a href="#schritt-fuer-schritt">Schritt für Schritt: Von der Idee zur Datei</a></li>
+      <li><a href="#prompts">Tipps für gute Prompts</a></li>
+      <li><a href="#chatten">Im Gespräch verbessern – die KI als Sparringspartner</a></li>
+      <li><a href="#pdf-upload">Eigene Inhalte einbringen: PDF-Upload</a></li>
+      <li><a href="#grenzen">Grenzen und Einschränkungen</a></li>
+      <li><a href="#veroeffentlichen">Im Schulportal veröffentlichen (IServ / TaskCards)</a></li>
+      <li><a href="#beispiele">Beispiele</a></li>
+    </ol>
+  </nav>
+
+  <!-- ── 1. WARUM ── -->
+  <section id="warum">
+    <p class="section-num">Abschnitt 01</p>
+    <h2 class="section-title">Warum HTML-Dateien?</h2>
+    <p>Interaktive HTML-Seiten sind im Schulkontext ideal: Sie laufen direkt im Browser, brauchen keine Installation, funktionieren auf iPads genauso wie auf Laptops und lassen sich ohne technisches Vorwissen im Schulportal einbinden.</p>
+    <p>Eine HTML-Datei bündelt dabei alles – Inhalt, Design und Logik – in einer einzigen Datei mit der Endung <span class="inline-code">.html</span>. Du brauchst keinen eigenen Server, keine zusätzliche Software. Die Datei funktioniert sofort, wenn man sie im Browser öffnet.</p>
+
+    <div class="card card-blue">
+      <div class="card-label">Vorteile auf einen Blick</div>
+      <ul style="margin:0; padding-left:20px;">
+        <li>Läuft auf iPad, Laptop, PC – ohne Installation</li>
+        <li>Alles in einer Datei: leicht weiterzugeben und zu archivieren</li>
+        <li>Du hast volle Kontrolle über Inhalt und Design</li>
+        <li>Datenschutzfreundlich: keine Verbindung zu externen Diensten nötig</li>
+        <li>Die KI erstellt sie vollständig – ohne Programmierkenntnisse</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── 2. TOOLS ── -->
+  <section id="tools">
+    <p class="section-num">Abschnitt 02</p>
+    <h2 class="section-title">Welches KI-Tool ist geeignet?</h2>
+    <p>Grundsätzlich können alle großen KI-Assistenten HTML-Dateien erstellen. Sie unterscheiden sich aber deutlich darin, wie komfortabel das Ganze abläuft.</p>
+
+    <div class="tool-grid">
+      <div class="tool-card featured">
+        <div class="tool-badge">⭐ Empfehlung</div>
+        <div class="tool-name">Claude (claude.ai)</div>
+        <ul class="tool-pros">
+          <li>Vorschau der fertigen Seite direkt im Chat</li>
+          <li>Fertige Datei mit einem Klick herunterladen</li>
+          <li>Auch lange und komplexe Seiten möglich</li>
+          <li>Eigene PDFs hochladen und als Grundlage nutzen</li>
+          <li>Setzt Anweisungen zuverlässig um</li>
+        </ul>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">ChatGPT (openai.com)</div>
+        <ul class="tool-pros">
+          <li>Weit verbreitet und bekannt</li>
+          <li>Gibt den Programmiercode im Chat aus</li>
+          <li class="minus">Kein direkter Datei-Download</li>
+          <li class="minus">Code muss manuell kopiert und gespeichert werden</li>
+          <li class="minus">Lange Dateien werden manchmal abgeschnitten</li>
+        </ul>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Gemini (gemini.google.com)</div>
+        <ul class="tool-pros">
+          <li>Google-Integration</li>
+          <li>Vorschau der fertigen Seite direkt im Chat</li>
+          <li>Gibt den Programmiercode im Chat aus</li>
+          <li class="minus">Kein direkter Datei-Download</li>
+          <li class="minus">Code muss manuell kopiert werden</li>
+          <li class="minus">Ergebnisqualität schwankt stärker</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-blue">
+      <div class="card-label">Warum claude.ai besonders empfohlen wird</div>
+      <p style="margin:0">Claude zeigt die fertige HTML-Seite als <strong>Vorschau</strong> direkt im Chatfenster an – du siehst sofort, wie das Ergebnis aussieht und kannst es ausprobieren. Mit einem Klick lässt sich die Datei direkt <strong>herunterladen</strong>. Außerdem kann Claude auch umfangreiche, interaktive Seiten mit Quizfragen, Timern und Spielelementen vollständig erstellen, ohne dass der Text mittendrin abbricht.</p>
+    </div>
+  </section>
+
+  <!-- ── 3. SCHRITT FÜR SCHRITT ── -->
+  <section id="schritt-fuer-schritt">
+    <p class="section-num">Abschnitt 03</p>
+    <h2 class="section-title">Schritt für Schritt: Von der Idee zur Datei</h2>
+
+    <h3>Bei claude.ai (empfohlen)</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Konto erstellen und einloggen</h4>
+          <p>Öffne <strong>claude.ai</strong> im Browser. Ein kostenloses Konto genügt für den Anfang. Die Nutzung ist auf eine bestimmte Anzahl Nachrichten pro Tag begrenzt; für Unterrichtsmaterial reicht das kostenlose Angebot in der Regel gut aus.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Neuen Chat starten und Auftrag eingeben</h4>
+          <p>Klicke auf „Neuer Chat" und beschreibe, was die Seite enthalten soll. Nenne Fach, Klasse und die Art der Aufgabe. Hinweise dazu findest du in Abschnitt 4.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Vorschau prüfen</h4>
+          <p>Claude zeigt rechts im Fenster eine Vorschau der fertigen Seite. Klicke durch die Elemente – funktionieren Buttons, Quiz und Interaktionen? Sieht das Design passend aus?</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Im Gespräch verbessern</h4>
+          <p>Ist etwas nicht wie gewünscht, beschreibe einfach in normaler Sprache, was geändert werden soll. Claude passt die Datei an. Mehr dazu in Abschnitt 5.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Datei herunterladen</h4>
+          <p>Sobald du zufrieden bist, klicke auf das <strong>Download-Symbol</strong> in der Vorschau. Die Datei wird als <span class="inline-code">.html</span>-Datei auf deinem Gerät gespeichert.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>Bei ChatGPT oder Gemini (manuell)</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Auftrag eingeben (siehe Abschnitt 4)</h4>
+          <p>Die KI gibt den Programmiercode als Textblock aus.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Code kopieren</h4>
+          <p>Klicke auf „Code kopieren" (das Symbol rechts oben im Code-Block) und kopiere den gesamten Inhalt in die Zwischenablage.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Texteditor öffnen und einfügen</h4>
+          <p>Öffne einen einfachen Texteditor (z.B. <strong>Editor/Notepad</strong> auf Windows oder <strong>TextEdit</strong> auf dem Mac – im reinen Textmodus). Füge den Code ein.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Als .html-Datei speichern</h4>
+          <p>Wähle „Speichern unter" und gib als Dateiname z.B. <span class="inline-code">quiz-klasse7.html</span> ein. Wichtig: Als Dateityp „Alle Dateien" wählen, damit die Endung <span class="inline-code">.html</span> nicht durch <span class="inline-code">.txt</span> ersetzt wird.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Im Browser testen</h4>
+          <p>Doppelklicke auf die gespeicherte Datei. Sie öffnet sich im Browser. Prüfe Funktion und Darstellung.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4. PROMPTS ── -->
+  <section id="prompts">
+    <p class="section-num">Abschnitt 04</p>
+    <h2 class="section-title">Tipps für gute Aufträge an die KI</h2>
+    <p>Die Qualität des Ergebnisses hängt stark davon ab, wie genau du deinen Auftrag formulierst. Je klarer du beschreibst, was du brauchst, desto besser wird die fertige Seite. Du musst dabei keine technischen Begriffe kennen – schreib einfach so, wie du es einer Kollegin oder einem Kollegen erklären würdest.</p>
+
+    <div class="card card-gold">
+      <div class="card-label">Checkliste: Was ein guter Auftrag enthält</div>
+      <ul style="margin:0; padding-left:20px;">
+        <li><strong>Art der Seite:</strong> Quiz, Arbeitsblatt, Lückentextübung, Erklärseite, Lernspiel …</li>
+        <li><strong>Fach und Thema:</strong> z.B. „Biologie, Thema: Fotosynthese"</li>
+        <li><strong>Klassenstufe:</strong> damit Sprache und Schwierigkeitsgrad passen</li>
+        <li><strong>Zielgerät:</strong> <em>„Für iPad im Querformat optimiert"</em> – das ist wichtig für den Schuleinsatz!</li>
+        <li><strong>Alles in einer Datei:</strong> ausdrücklich verlangen, dass alles in einer einzigen Datei steht</li>
+        <li><strong>Offline nutzbar:</strong> die Seite soll auch ohne Internetverbindung funktionieren</li>
+        <li><strong>Gewünschte Interaktionen:</strong> z.B. Multiple-Choice, Zuordnung, Timer, Selbstkorrektur</li>
+      </ul>
+    </div>
+
+    <h3>Vorlage zum Anpassen</h3>
+    <p>Kopiere diesen Auftrag und ersetze die markierten Stellen durch deine eigenen Angaben:</p>
+
+    <div class="prompt-box" style="position:relative;">
+      Erstelle eine <span class="prompt-highlight">einzelne HTML-Datei</span>, die alles enthält und auch ohne Internetverbindung funktioniert.<br><br>
+      <strong style="color:#fff;">Fach:</strong> <span class="prompt-highlight">[z.B. Biologie / Deutsch / Mathematik]</span><br>
+      <strong style="color:#fff;">Jahrgangsstufe:</strong> <span class="prompt-highlight">[z.B. Klasse 7 / 9. Jahrgangsstufe]</span><br>
+      <strong style="color:#fff;">Thema:</strong> <span class="prompt-highlight">[z.B. Fotosynthese / Satzglieder / Bruchrechnung]</span><br>
+      <strong style="color:#fff;">Ziel der Seite:</strong> <span class="prompt-highlight">[z.B. Ein Quiz mit 5 Fragen und direkter Rückmeldung / Eine interaktive Übung zum Zuordnen / Eine Erklärseite mit Tipp-Funktion]</span><br><br>
+      Die Sprache soll zur Altersgruppe passen. Die Seite muss <span class="prompt-highlight">auf dem iPad im Querformat</span> gut nutzbar sein – große Buttons, übersichtliches Layout. Helles, freundliches Design.
+    </div>
+
+    <h3>Fertige Beispiel-Aufträge</h3>
+
+    <div class="prompt-box">
+      Erstelle eine <span class="prompt-highlight">einzelne HTML-Datei</span>, die alles enthält und auch ohne Internetverbindung funktioniert. Fach: Biologie, Klasse 7, Thema: Fotosynthese. Die Seite soll ein <span class="prompt-highlight">Multiple-Choice-Quiz mit 5 Fragen</span> enthalten, direkt nach jeder Antwort Rückmeldung geben (richtig / falsch) und am Ende eine Punktauswertung zeigen. Sprache einfach und verständlich für 12-Jährige. Die Seite muss <span class="prompt-highlight">auf dem iPad im Querformat</span> gut nutzbar sein. Design: übersichtlich, helle Farben, große Buttons.
+    </div>
+
+    <div class="prompt-box">
+      Erstelle eine <span class="prompt-highlight">einzelne HTML-Datei</span>, die alles enthält und auch ohne Internetverbindung funktioniert. Fach: Chemie, Klasse 9, Thema: Periodensystem – Aufbau und Perioden. Die Seite soll eine kurze Erklärung, ein <span class="prompt-highlight">interaktives Zuordnungs-Spiel</span> (Elemente den richtigen Gruppen zuordnen) und einen aufklappbaren Tipp-Bereich enthalten. <span class="prompt-highlight">Für iPad im Querformat optimiert.</span> Kein Design-Hilfsprogramm verwenden – alle Gestaltung direkt in der Datei einbauen.
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-label">💡 Wichtiger Hinweis zum iPad</div>
+      <p style="margin:0">Gib <strong>immer explizit an</strong>, dass die Seite „für iPad im Querformat optimiert" sein soll. Damit stellt die KI das Layout so ein, dass es auf den typischen Schulgeräten gut aussieht: ausreichend große Buttons zum Antippen, gut lesbare Schrift und kein störendes seitliches Scrollen.</p>
+    </div>
+  </section>
+
+  <!-- ── 5. CHATTEN ── -->
+  <section id="chatten">
+    <p class="section-num">Abschnitt 05</p>
+    <h2 class="section-title">Im Gespräch verbessern – die KI als Sparringspartner</h2>
+    <p>Der entscheidende Vorteil gegenüber klassischem Programmieren: Du musst nicht sofort den perfekten Auftrag formulieren. Die Erstellung einer HTML-Seite ist ein <strong>Gespräch</strong> – ganz wie mit einer Kollegin oder einem Kollegen, dem du deine Wünsche schilderst.</p>
+    <p>Ist die erste Version nicht ganz das Richtige, beschreibe einfach in normaler Sprache, was geändert werden soll. Technisches Wissen ist dafür nicht nötig – du musst nicht wissen, wie etwas programmiert wird, nur was du sehen möchtest.</p>
+
+    <div class="card card-green">
+      <div class="card-label">Beispiele für Verbesserungsanfragen</div>
+      <ul style="margin:0; padding-left:20px;">
+        <li>„Die Überschrift ist zu klein, mach sie bitte größer."</li>
+        <li>„Das Quiz soll erst starten, wenn ich einen Start-Button drücke."</li>
+        <li>„Füge nach Frage 3 einen kurzen Erklärtext ein."</li>
+        <li>„Die Hintergrundfarbe soll ein helles Blau sein, kein Weiß."</li>
+        <li>„Bitte füge eine Fortschrittsanzeige hinzu, damit die Schüler sehen, bei welcher Frage sie sind."</li>
+        <li>„Der Tipp soll erst erscheinen, wenn man auf einen Button klickt."</li>
+        <li>„Kann die Seite merken, was man eingegeben hat, auch wenn man die Seite neu lädt?"</li>
+      </ul>
+    </div>
+
+    <p>Mehrere Gesprächsrunden sind völlig normal – das Ergebnis wird mit jedem Schritt besser. Behandle die KI wie einen geduldigen Assistenten, der immer wieder anpasst, bis es passt.</p>
+
+    <div class="card card-gold">
+      <div class="card-label">Tipp: Zwischenstände sichern</div>
+      <p style="margin:0">Lade nach jeder gelungenen Verbesserungsrunde die aktuelle Version herunter und speichere sie mit einer Versionsnummer (z.B. <span class="inline-code">quiz-fotosynthese-v2.html</span>). So kannst du jederzeit zur vorherigen Version zurückkehren, falls eine Änderung unerwünschte Nebenwirkungen hat.</p>
+    </div>
+  </section>
+
+  <!-- ── 6. PDF ── -->
+  <section id="pdf-upload">
+    <p class="section-num">Abschnitt 06</p>
+    <h2 class="section-title">Eigene Inhalte einbringen: PDFs hochladen</h2>
+    <p>Bei Claude kannst du <strong>PDF-Dokumente direkt in den Chat hochladen</strong>. Die KI liest den Inhalt und kann ihn als Grundlage für die HTML-Seite nutzen. Das ist besonders praktisch, wenn du:</p>
+
+    <ul>
+      <li>ein bestehendes Arbeitsblatt in eine interaktive Seite umwandeln möchtest,</li>
+      <li>Texte aus deinen Unterrichtsreihen als Ausgangsmaterial nutzen willst,</li>
+      <li>Fachbegriffe oder Definitionen aus eigenen Materialien einbauen möchtest,</li>
+      <li>ein Quiz oder eine Zusammenfassung aus einem vorhandenen Text erstellen willst.</li>
+    </ul>
+
+    <div class="prompt-box">
+      [PDF hochladen: „Kapitel_Fotosynthese.pdf"]<br><br>
+      Erstelle auf Basis dieses Dokuments eine <span class="prompt-highlight">einzelne HTML-Datei</span> mit einem Lernquiz für Klasse 7. Nutze die Fachbegriffe und Erklärungen aus dem Dokument. Die Seite soll auch <span class="prompt-highlight">ohne Internetverbindung</span> funktionieren und <span class="prompt-highlight">auf dem iPad im Querformat</span> gut lesbar sein.
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-label">⚠ Urheberrecht beachten</div>
+      <p style="margin:0">Lade nur Dokumente hoch, für die du die entsprechenden Rechte hast. Eigene Unterrichtsmaterialien sind problemlos nutzbar. Bei Schulbuchinhalten kläre die Nutzungsrechte vorab.</p>
+    </div>
+  </section>
+
+  <!-- ── 7. GRENZEN ── -->
+  <section id="grenzen">
+    <p class="section-num">Abschnitt 07</p>
+    <h2 class="section-title">Was geht – und was nicht</h2>
+    <p>HTML-Dateien, die alles in sich tragen, sind sehr praktisch – aber nicht für alles geeignet. Hier ein ehrlicher Überblick, damit du keine bösen Überraschungen erlebst.</p>
+
+    <h3>Grafiken und Bilder</h3>
+    <div class="warning">
+      <p class="warning-title">⚠ Bilder lassen sich nicht ohne Weiteres einbauen:</p>
+      <ul>
+        <li>Die KI kann <strong>keine Bilder erzeugen</strong> und direkt einbauen.</li>
+        <li>Verlinkungen auf Bilder aus dem Internet funktionieren nur, wenn das Gerät online ist – und können jederzeit ungültig werden.</li>
+        <li>Eigene Bilder können zwar technisch in die Datei eingebettet werden, das macht die Datei aber deutlich größer. Wenn du das möchtest, frag die KI explizit danach.</li>
+        <li>Einfache <strong>Grafiken und Diagramme</strong> (z.B. Pfeile, Flussdiagramme, einfache Illustrationen) kann die KI direkt als Teil der Datei erzeugen – frag einfach danach.</li>
+      </ul>
+    </div>
+
+    <h3>Tonausgabe (Audio)</h3>
+    <div class="warning">
+      <p class="warning-title">⚠ Audiodateien funktionieren in einer Einzel-Datei nur eingeschränkt:</p>
+      <ul>
+        <li>Audiodateien (MP3, WAV) können zwar eingebettet werden, machen die Datei aber sehr groß und unhandlich.</li>
+        <li>Moderne Browser können Text vorlesen – ohne externe Dateien. Wenn du Sprachausgabe möchtest, frag die KI danach. Die Qualität und die verfügbaren Stimmen hängen vom iPad und dessen Spracheinstellungen ab.</li>
+        <li>Verlinkungen auf externe Audiodateien funktionieren nur mit Internetverbindung.</li>
+      </ul>
+    </div>
+
+    <h3>Design-Hilfsprogramme und Online-Dienste</h3>
+    <div class="warning">
+      <p class="warning-title">⚠ Manche Design-Hilfsmittel brauchen eine Internetverbindung:</p>
+      <ul>
+        <li>Einige KI-Tools verwenden beim Gestalten Hilfstools, die aus dem Internet nachgeladen werden müssen. Ohne Internetverbindung sieht die Seite dann unter Umständen falsch aus oder gar nicht.</li>
+        <li>Damit die Seite <strong>wirklich offline funktioniert</strong>, musst du im Auftrag ausdrücklich darauf hinweisen: <em>„Die Seite soll auch ohne Internetverbindung funktionieren und alles, was sie braucht, direkt in sich tragen."</em></li>
+        <li>Wenn du das sagst, verzichtet die KI auf solche Hilfsmittel und baut alles direkt in die Datei ein.</li>
+      </ul>
+    </div>
+
+    <h3>Datenspeicherung</h3>
+    <div class="card card-gold">
+      <div class="card-label">Merkt sich die Seite Eingaben?</div>
+      <p style="margin:0">HTML-Seiten können sich Eingaben der Schülerinnen und Schüler im <strong>Gerätespeicher des Browsers</strong> merken. Das bedeutet: Eingaben bleiben erhalten, wenn die Seite neu geladen wird – aber nur auf demselben Gerät. Eine Übertragung an andere Geräte oder an dich als Lehrkraft ist damit nicht möglich.</p>
+    </div>
+  </section>
+
+  <!-- ── 8. LMS ── -->
+  <section id="veroeffentlichen">
+    <p class="section-num">Abschnitt 08</p>
+    <h2 class="section-title">In IServ oder TaskCards zur Verfügung stellen</h2>
+    <p>Die fertige HTML-Datei kann auf verschiedenen Wegen für deine Schülerinnen und Schüler zugänglich gemacht werden.</p>
+
+    <h3>IServ</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Datei in IServ hochladen</h4>
+          <p>Melde dich in IServ an, öffne den Bereich „Dateien" und lade die <span class="inline-code">.html</span>-Datei in einen passenden Ordner hoch.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Link teilen oder als Anhang beifügen</h4>
+          <p>Erstelle in IServ eine neue Aufgabe. Im Textbereich kannst du einen Link auf die hochgeladene Datei einfügen oder die Datei direkt als Anhang beifügen. Schülerinnen und Schüler können sie dann herunterladen und im Browser öffnen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-blue" style="margin-top:4px;">
+      <div class="card-label">Hinweis zum direkten Öffnen</div>
+      <p style="margin:0">IServ öffnet HTML-Dateien je nach Einstellung deiner Schule direkt im Browser oder bietet sie nur zum Herunterladen an. Wenn das direkte Öffnen nicht funktioniert, wende dich an die IT-Administration deiner Schule.</p>
+    </div>
+
+    <h3>TaskCards</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Datei unter einer Webadresse erreichbar machen</h4>
+          <p>Da TaskCards hauptsächlich mit Links arbeitet, brauchst du eine Webadresse für deine HTML-Datei. Möglichkeiten: Schulserver, SharePoint, eine freigegebene Schul-Cloud oder ein einfacher kostenloser Dienst wie GitHub Pages.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Link in TaskCard einfügen</h4>
+          <p>Erstelle eine neue Karte in TaskCards und füge den Link zur HTML-Datei ein. Schülerinnen und Schüler können die Seite dann direkt über den Link öffnen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-green">
+      <div class="card-label">Alternative: QR-Code</div>
+      <p style="margin:0">Wenn die HTML-Datei unter einer Webadresse erreichbar ist, kannst du zusätzlich einen QR-Code erstellen (z.B. mit <em>qr-code-generator.com</em>, kostenlos). Schülerinnen und Schüler scannen ihn mit dem iPad und öffnen die Seite ohne langes Tippen.</p>
+    </div>
+  </section>
+
+</div><!-- /.wrapper -->
+
+<!-- ── BEISPIELE ── -->
+<div class="wrapper">
+  <section id="beispiele">
+    <p class="section-num">Beispiele</p>
+    <h2 class="section-title" style="border-bottom-color: #ccc4b8;">Fertige Unterrichtsmaterialien</h2>
+    <p style="color: var(--muted);">Hier findest du ausgewählte HTML-Seiten, die mit KI-Unterstützung erstellt wurden und direkt eingesetzt oder als Vorlage genutzt werden können.</p>
+
+    <div class="beispiel-grid">
+      <!-- Platzhalter-Karte 1 -->
+      <div class="beispiel-card">
+        <h4>🔬 Beispiel 1</h4>
+        <p>Kurze Beschreibung des Unterrichtsmaterials: Fach, Klasse, Aufgabentyp.</p>
+        <a class="beispiel-btn" href="#">Öffnen ↗</a>
+      </div>
+      <!-- Platzhalter-Karte 2 -->
+      <div class="beispiel-card">
+        <h4>🧪 Beispiel 2</h4>
+        <p>Kurze Beschreibung des Unterrichtsmaterials: Fach, Klasse, Aufgabentyp.</p>
+        <a class="beispiel-btn" href="#">Öffnen ↗</a>
+      </div>
+      <!-- Platzhalter-Karte 3 -->
+      <div class="beispiel-card">
+        <h4>📐 Beispiel 3</h4>
+        <p>Kurze Beschreibung des Unterrichtsmaterials: Fach, Klasse, Aufgabentyp.</p>
+        <a class="beispiel-btn" href="#">Öffnen ↗</a>
+      </div>
+    </div>
+
+    <p class="placeholder-note" style="margin-top:24px;">
+      ✏️ Dieser Bereich wird laufend mit neuen Beispielen ergänzt.<br>
+      <em>Für jede Karte: Titel, kurze Beschreibung und Link zur HTML-Datei eintragen.</em>
+    </p>
+  </section>
+</div>
+
+<!-- ── META-HINWEIS ── -->
+<div class="wrapper">
+  <section id="meta" style="margin-bottom: 0;">
+    <div class="card card-blue" style="margin: 0 0 64px;">
+      <div class="card-label">💡 Diese Seite selbst ist ein Beispiel</div>
+      <p style="margin:0">Diese Anleitung ist selbst auf dem beschriebenen Weg entstanden: Der Text und das Design wurden gemeinsam mit Claude erarbeitet – durch einen ersten Auftrag und mehrere Verbesserungsrunden im Gespräch. Das fertige Ergebnis war eine einzelne HTML-Datei, genau so, wie es hier beschrieben wird. Du kannst diese Seite also gleichzeitig als Anleitung <em>und</em> als Beispiel betrachten, was mit dieser Methode möglich ist.</p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  Erstellt mit Unterstützung von <strong>claude.ai</strong> &nbsp;·&nbsp; Für den Einsatz im Schulunterricht
+</footer>
+
+<!-- ── ANSICHT-UMSCHALTER (fest positioniert) ── -->
+<div id="view-toggle" style="
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  background: var(--ink);
+  border-radius: 40px;
+  padding: 6px 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+">
+  <button onclick="setView('lang')" id="btn-lang" style="
+    border: none; cursor: pointer; border-radius: 30px;
+    padding: 8px 18px; font-size: 0.85rem; font-weight: 500;
+    font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+    background: white; color: var(--ink);
+  ">📖 Ausführlich</button>
+  <button onclick="setView('kurz')" id="btn-kurz" style="
+    border: none; cursor: pointer; border-radius: 30px;
+    padding: 8px 18px; font-size: 0.85rem; font-weight: 500;
+    font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+    background: transparent; color: rgba(255,255,255,0.7);
+  ">⚡ Kurzform</button>
+</div>
+
+<!-- ── KURZANLEITUNG ── -->
+<div id="kurzanleitung" style="display:none;">
+  <div style="max-width: 860px; margin: 0 auto; padding: 48px 32px 100px;">
+
+    <div style="
+      background: var(--ink); color: white;
+      border-radius: 16px; padding: 32px 36px; margin-bottom: 32px;
+    ">
+      <p style="font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; font-weight:500;">Kurzanleitung</p>
+      <h2 style="font-family:'Fraunces',serif; font-size:1.9rem; font-weight:700; line-height:1.2; margin-bottom:12px;">HTML-Lernseite mit KI erstellen</h2>
+      <p style="color:rgba(255,255,255,0.7); font-size:0.98rem;">In 5 Schritten von der Idee zur fertigen Datei – zum Ausdrucken oder Vorzeigen.</p>
+    </div>
+
+    <!-- Schritt 1 -->
+    <div style="display:flex; gap:20px; margin-bottom:20px; align-items:flex-start;">
+      <div style="min-width:48px; height:48px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:1.2rem; color:white; flex-shrink:0;">1</div>
+      <div style="background:white; border:1px solid var(--border); border-radius:12px; padding:20px 24px; flex:1;">
+        <h3 style="font-family:'Fraunces',serif; font-size:1.1rem; font-weight:600; margin-bottom:6px; color:var(--ink);">claude.ai öffnen und einloggen</h3>
+        <p style="margin:0; color:#555; font-size:0.95rem;">Kostenloses Konto genügt. Auf <strong>claude.ai</strong> im Browser aufrufen.</p>
+      </div>
+    </div>
+
+    <!-- Schritt 2 -->
+    <div style="display:flex; gap:20px; margin-bottom:20px; align-items:flex-start;">
+      <div style="min-width:48px; height:48px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:1.2rem; color:white; flex-shrink:0;">2</div>
+      <div style="background:white; border:1px solid var(--border); border-radius:12px; padding:20px 24px; flex:1;">
+        <h3 style="font-family:'Fraunces',serif; font-size:1.1rem; font-weight:600; margin-bottom:10px; color:var(--ink);">Auftrag eingeben – Vorlage kopieren &amp; anpassen</h3>
+        <div style="
+          background: var(--ink); color: #e0e0e0;
+          border-radius: 10px; padding: 16px 20px;
+          font-size: 0.9rem; line-height: 1.6;
+        ">
+          Erstelle eine <em style="color:#9ac8e8;">einzelne HTML-Datei</em>, die alles enthält und auch ohne Internetverbindung funktioniert.<br><br>
+          <strong style="color:#fff;">Fach:</strong> <em style="color:var(--gold);">[z.B. Biologie]</em><br>
+          <strong style="color:#fff;">Jahrgangsstufe:</strong> <em style="color:var(--gold);">[z.B. Klasse 7]</em><br>
+          <strong style="color:#fff;">Thema:</strong> <em style="color:var(--gold);">[z.B. Fotosynthese]</em><br>
+          <strong style="color:#fff;">Ziel:</strong> <em style="color:var(--gold);">[z.B. Quiz mit 5 Fragen und Rückmeldung]</em><br><br>
+          Sprache passend zur Altersgruppe. Die Seite muss <em style="color:#9ac8e8;">auf dem iPad im Querformat</em> gut nutzbar sein – große Buttons, übersichtliches Layout.
+        </div>
+      </div>
+    </div>
+
+    <!-- Schritt 3 -->
+    <div style="display:flex; gap:20px; margin-bottom:20px; align-items:flex-start;">
+      <div style="min-width:48px; height:48px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:1.2rem; color:white; flex-shrink:0;">3</div>
+      <div style="background:white; border:1px solid var(--border); border-radius:12px; padding:20px 24px; flex:1;">
+        <h3 style="font-family:'Fraunces',serif; font-size:1.1rem; font-weight:600; margin-bottom:6px; color:var(--ink);">Vorschau prüfen &amp; im Chat verbessern</h3>
+        <p style="margin:0; color:#555; font-size:0.95rem;">Claude zeigt die Seite direkt als Vorschau. Was nicht passt, einfach in normaler Sprache beschreiben: <em>„Mach die Schrift größer"</em>, <em>„Füge einen Tipp-Button ein"</em> usw. – so oft wie nötig.</p>
+      </div>
+    </div>
+
+    <!-- Schritt 4 -->
+    <div style="display:flex; gap:20px; margin-bottom:20px; align-items:flex-start;">
+      <div style="min-width:48px; height:48px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:1.2rem; color:white; flex-shrink:0;">4</div>
+      <div style="background:white; border:1px solid var(--border); border-radius:12px; padding:20px 24px; flex:1;">
+        <h3 style="font-family:'Fraunces',serif; font-size:1.1rem; font-weight:600; margin-bottom:6px; color:var(--ink);">Datei herunterladen</h3>
+        <p style="margin:0; color:#555; font-size:0.95rem;">Download-Symbol in der Vorschau anklicken → fertige <span style="font-family:monospace; background:#f0ebe0; padding:1px 6px; border-radius:4px; font-size:0.88em;">.html</span>-Datei wird gespeichert. Im Browser testen: Doppelklick auf die Datei.</p>
+      </div>
+    </div>
+
+    <!-- Schritt 5 -->
+    <div style="display:flex; gap:20px; margin-bottom:32px; align-items:flex-start;">
+      <div style="min-width:48px; height:48px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:1.2rem; color:white; flex-shrink:0;">5</div>
+      <div style="background:white; border:1px solid var(--border); border-radius:12px; padding:20px 24px; flex:1;">
+        <h3 style="font-family:'Fraunces',serif; font-size:1.1rem; font-weight:600; margin-bottom:10px; color:var(--ink);">Für Schüler:innen bereitstellen</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div style="background:#f5f9fc; border-radius:8px; padding:14px 16px;">
+            <strong style="display:block; margin-bottom:4px; font-size:0.9rem;">IServ</strong>
+            <span style="font-size:0.88rem; color:#555;">Datei hochladen → als Anhang oder Link in einer Aufgabe teilen</span>
+          </div>
+          <div style="background:#f5f9fc; border-radius:8px; padding:14px 16px;">
+            <strong style="display:block; margin-bottom:4px; font-size:0.9rem;">TaskCards</strong>
+            <span style="font-size:0.88rem; color:#555;">Datei unter einer Webadresse ablegen → Link in Karte einfügen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tipps-Kästchen -->
+    <div style="
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    ">
+      <div style="background:#fff8e1; border:1px solid #f0c060; border-radius:12px; padding:18px 20px;">
+        <strong style="display:block; color:#8a5c00; margin-bottom:6px; font-size:0.88rem; text-transform:uppercase; letter-spacing:0.08em;">💡 iPad-Tipp</strong>
+        <p style="margin:0; font-size:0.9rem; color:#6b4c00;">Immer angeben: <em>„Für iPad im Querformat optimiert"</em></p>
+      </div>
+      <div style="background:#fff8e1; border:1px solid #f0c060; border-radius:12px; padding:18px 20px;">
+        <strong style="display:block; color:#8a5c00; margin-bottom:6px; font-size:0.88rem; text-transform:uppercase; letter-spacing:0.08em;">💡 Offline-Tipp</strong>
+        <p style="margin:0; font-size:0.9rem; color:#6b4c00;"><em>„Alles in einer Datei, auch ohne Internet nutzbar"</em></p>
+      </div>
+      <div style="background:#f4faf7; border:1px solid #9acbb0; border-radius:12px; padding:18px 20px;">
+        <strong style="display:block; color:#2a6a42; margin-bottom:6px; font-size:0.88rem; text-transform:uppercase; letter-spacing:0.08em;">✓ PDF hochladen</strong>
+        <p style="margin:0; font-size:0.9rem; color:#2a6a42;">Eigene Materialien als PDF hochladen → KI nutzt die Inhalte direkt</p>
+      </div>
+      <div style="background:#f4faf7; border:1px solid #9acbb0; border-radius:12px; padding:18px 20px;">
+        <strong style="display:block; color:#2a6a42; margin-bottom:6px; font-size:0.88rem; text-transform:uppercase; letter-spacing:0.08em;">✓ Versionen sichern</strong>
+        <p style="margin:0; font-size:0.9rem; color:#2a6a42;">Nach jeder guten Version herunterladen und mit Nummer speichern (v2, v3 …)</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function setView(mode) {
+    const lang = document.getElementById('kurzanleitung');
+    const btnLang = document.getElementById('btn-lang');
+    const btnKurz = document.getElementById('btn-kurz');
+    // alle normalen Sektionen
+    const mainContent = document.querySelectorAll('header, .wrapper, footer');
+
+    if (mode === 'kurz') {
+      lang.style.display = 'block';
+      mainContent.forEach(el => el.style.display = 'none');
+      btnKurz.style.background = 'white';
+      btnKurz.style.color = 'var(--ink)';
+      btnLang.style.background = 'transparent';
+      btnLang.style.color = 'rgba(255,255,255,0.7)';
+      window.scrollTo(0, 0);
+    } else {
+      lang.style.display = 'none';
+      mainContent.forEach(el => el.style.display = '');
+      btnLang.style.background = 'white';
+      btnLang.style.color = 'var(--ink)';
+      btnKurz.style.background = 'transparent';
+      btnKurz.style.color = 'rgba(255,255,255,0.7)';
+      window.scrollTo(0, 0);
+    }
+  }
+</script>
+
+</body>
+</html>
